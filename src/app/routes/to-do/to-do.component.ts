@@ -1,6 +1,7 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {HttpClient, HttpClientModule, provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
 
 interface SelectOption {
   value: Priority;
@@ -10,7 +11,7 @@ interface TodoElement {
   title: string;
   content: string;
   image: string;
-  priority: number;
+  priority: Priority;
 }
 enum Priority {
   LOW,
@@ -23,8 +24,10 @@ enum Priority {
   imports: [
     NgForOf,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgIf
   ],
+  providers: [ ],
   template: `
     <div class="max-w-4xl mx-auto">
       <h1 class="m-5 text-2xl font-bold">
@@ -57,25 +60,48 @@ enum Priority {
             Add Todo
           </button>
         </div>
+      <div class="tasks w-full mt-5 p-2 grid xl:grid-cols-4 lg:grid-cols-3git  md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-10">
+        <div *ngFor="let todo of todos; let i = index" class="w-full flex flex-col justify-between relative rounded min-h-[250px] overflow-hidden shadow-2xl  bg-slate-900">
+          <div class="absolute bottom-2 left-2 w-4 h-4  rounded-3xl {{getColorByPriority(todo)}}"></div>
+          <img *ngIf="todo.image" class="my-2" src="{{todo.image}}" alt="task image">
+          <div class="flex justify-between p-3">
+            <h3 class="mb-5 text-2xl break-all">{{ todo.title }}</h3>
+            <div (click)="removeItemAtIndex(i)" class="hover:scale-110 cursor-pointer transition-all duration-300 ">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                <path fill-rule="evenodd"
+                      d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
+                      clip-rule="evenodd"/>
+              </svg>
+            </div>
+          </div>
+          <p class="p-2">{{ todo.content }}</p>
+          <div class="text-green-800 w-full pt-5 flex justify-end justify-self-end p-2 cursor-pointer" (click)="moveItemAtIndexToDone(i)">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+              <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
+            </svg>
 
-        <div class="tasks w-full mt-5 p-2 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-10">
-          <div *ngFor="let todo of todos; let i = index" class="w-full relative rounded min-h-[250px] overflow-hidden shadow-2xl  bg-slate-900">
-            <div class="absolute top-2 right-2 w-4 h-4  rounded-3xl {{getColorByPriority(todo)}}"></div>
-            <img class="my-2" src="{{todo.image}}" alt="task image">
+          </div>
+        </div>
+
+      </div>
+
+      <h1 class="text-xl mt-8">Done Todos</h1>
+
+      <div class="tasks w-full mt-5 p-2 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-10">
+          <div *ngFor="let todo of doneTodos; let i = index" class="w-full  opacity-50 relative rounded min-h-[250px] overflow-hidden shadow-2xl  bg-slate-900">
+            <div class="absolute bottom-2 left-2 w-4 h-4  rounded-3xl {{getColorByPriority(todo)}}"></div>
+            <img *ngIf="todo.image" class="my-2" src="{{todo.image}}" alt="task image">
             <div class="flex justify-between p-3">
               <h3 class="mb-5 text-2xl break-all">{{ todo.title }}</h3>
-              <div (click)="removeItemAtIndex(i)" class="hover:scale-110 cursor-pointer transition-all duration-300 ">
+              <div (click)="removeItemAtIndex(i, true)" class="hover:scale-110 cursor-pointer transition-all duration-300 ">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                   <path fill-rule="evenodd"
                         d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
                         clip-rule="evenodd"/>
                 </svg>
               </div>
-
-
             </div>
-
-            <p class="p-2">{{ todo.content }}</p>
+            <p class="p-2 mb-2">{{ todo.content }}</p>
 
           </div>
         </div>
@@ -86,6 +112,7 @@ enum Priority {
 export class ToDoComponent implements OnInit {
 
   todos: TodoElement[] = [];
+  doneTodos: TodoElement[] = [];
   fb = inject(FormBuilder);
   fg = this.fb.group({
     title: ['', Validators.required],
@@ -101,6 +128,9 @@ export class ToDoComponent implements OnInit {
     {value: Priority.HIGH, display: 'High'},
 
   ]
+
+  httpClient: HttpClient = inject(HttpClient);
+
   submitTodo() {
     if (this.fg.invalid)
       return;
@@ -112,29 +142,52 @@ export class ToDoComponent implements OnInit {
 
     this.fg.patchValue({title: '', content: '', image: '',priority: Priority.LOW });
 
-    this.todos = this.todos.sort((a,b) => {
-      return b.priority - a.priority;
-    })
-
+    this.sortTodos();
     this.updateTodosInLocalStorage();
   }
 
+  sortTodos() {
+    this.todos = this.todos.sort((a,b) => {
+      return b.priority - a.priority;
+    })
+  }
   ngOnInit() {
+    /*this.httpClient.get<TodoElement[]>('http://localhost:3000/todos/all').subscribe(data => {
+      console.log(data);
+    })*/
     this.todos = JSON.parse(localStorage.getItem('todos') ?? '[]');
+    this.doneTodos = JSON.parse(localStorage.getItem('doneTodos') ?? '[]');
     console.log(this.fg.getRawValue());
   }
 
   updateTodosInLocalStorage() {
     localStorage.setItem('todos', JSON.stringify(this.todos));
   }
-
-  removeItemAtIndex(index: number) {
-    this.todos = this.todos.filter((entry, entryIndex) => {
-      return entryIndex !== index
-    })
-    this.updateTodosInLocalStorage();
+  updateDoneTodosInLocalStorage() {
+    localStorage.setItem('doneTodos', JSON.stringify(this.doneTodos));
   }
 
+  removeItemAtIndex(index: number, fromDone?: boolean) {
+    if(fromDone) {
+      this.doneTodos = this.doneTodos.filter((entry, entryIndex) => {
+        return entryIndex !== index
+      })
+      this.updateDoneTodosInLocalStorage();
+    } else {
+      this.todos = this.todos.filter((entry, entryIndex) => {
+        return entryIndex !== index
+      })
+      this.updateTodosInLocalStorage();
+    }
+
+  }
+
+  moveItemAtIndexToDone(index: number){
+    const item = this.todos[index];
+    this.removeItemAtIndex(index);
+    this.doneTodos.push(item);
+    this.updateDoneTodosInLocalStorage();
+  }
   getColorByPriority(todo: TodoElement) {
       switch (todo.priority){
         case Priority.LOW:
