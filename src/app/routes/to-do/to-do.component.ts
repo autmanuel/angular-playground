@@ -5,6 +5,7 @@ import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angula
 interface TodoElement {
   title: string;
   content: string;
+  image: string;
 }
 
 @Component({
@@ -23,24 +24,31 @@ interface TodoElement {
       <div class="flex flex-col md:px-0 px-5  w-full" [formGroup]="fg">
         <div class="md:w-2/3 sm:w-3/4 w-full self-center flex flex-col gap-2">
           <div>
-            <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First name</label>
+            <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Task title</label>
             <input formControlName="title" type="text" id="title"
                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                   placeholder="John" required/>
+                   placeholder="Add task title" required/>
           </div>
           <label for="content" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your message</label>
           <textarea formControlName="content" id="content" rows="4"
                     class=" block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Write your thoughts here..."></textarea>
+                    placeholder="Add task description"></textarea>
+
+              <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Task image</label>
+              <input formControlName="image" type="text" id="image"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                     placeholder="Paste link of task image here" />
+            </div>
           <button [disabled]="fg.invalid" (click)="submitTodo()" type="button"
                   class=" disabled:bg-gray-500 hover:disabled:bg-gray-500 self-center text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
             Add Todo
           </button>
         </div>
 
-        <div class="tasks mt-5 p-2 w-full grid md:grid-cols-4  sm:grid-cols-2 grid-cols-1 gap-10">
-          <div *ngFor="let todo of todos; let i = index" class="rounded-md p-3 drop-shadow-2xl bg-slate-900">
-            <div class="flex justify-between">
+        <div class="tasks w-full mt-5 p-2 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-10">
+          <div *ngFor="let todo of todos; let i = index" class="w-full rounded overflow-hidden shadow-lg bg-slate-900">
+            <img class="my-2" src="{{todo.image}}" alt="task image">
+            <div class="flex justify-between p-3">
               <h3 class="mb-5 text-2xl break-all">{{ todo.title }}</h3>
               <div (click)="removeItemAtIndex(i)" class="hover:scale-110 cursor-pointer transition-all duration-300 ">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
@@ -50,13 +58,15 @@ interface TodoElement {
                 </svg>
               </div>
 
+
             </div>
-            <p>{{ todo.content }}</p>
+
+            <p class="p-2">{{ todo.content }}</p>
 
           </div>
         </div>
       </div>
-    </div>
+
   `,
   styles: ``
 })
@@ -65,7 +75,8 @@ export class ToDoComponent implements OnInit {
   fb = inject(FormBuilder);
   fg = this.fb.group({
     title: ['', Validators.required],
-    content: ['', Validators.required]
+    content: ['', Validators.required],
+    image: ['']
   });
 
   submitTodo() {
@@ -74,7 +85,7 @@ export class ToDoComponent implements OnInit {
 
     const value = this.fg.getRawValue();
     this.todos.push(value as TodoElement);
-    this.fg.patchValue({title: '', content: ''});
+    this.fg.patchValue({title: '', content: '', image: ''});
     this.updateTodosInLocalStorage();
   }
 

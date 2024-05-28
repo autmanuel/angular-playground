@@ -1,63 +1,55 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {State, StateService} from "../../state.service";
-import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
+import { Component } from '@angular/core';
+import {RouterLink, RouterLinkActive} from "@angular/router";
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
-    ReactiveFormsModule
+    RouterLink,
+    RouterLinkActive
   ],
   template: `
-    <div class="grid grid-cols-3 gap-5" [formGroup]="formGroup">
-      <div>
-        <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First name</label>
-        <input formControlName="firstName" type="text" id="first_name"
-               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-               placeholder="Firstname" required/>
+      <div class="hero-img flex font-bold text-3xl w-full h-[50vh] border-b border-black shadow-2xl drop-shadow-2xl justify-center content-center items-center">
+
+    <div class="hero-bg w-full h-full opacity-40">
+    </div>
+        <h1 class="hero-text drop-shadow-2xl">ANGULAR TRAINING STATION</h1>
+    </div>
+
+      <!--Content with full VH for scroll function on hero image-->
+    <div class="content h-screen">
+      <div class="home-text px-5">
+    <h1 class="mt-10 mb-5 text-2xl">Welcome to my Angular Training Station!</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio itaque quas repellendus voluptatem voluptatum. Adipisci animi, autem deleniti, error eum illum incidunt minima, molestias omnis quasi qui sapiente sunt temporibus! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus ad aliquam architecto autem ea earum esse est eveniet exercitationem fuga, illum incidunt ipsam ipsum minus modi nemo nisi odio perferendis quam ratione repudiandae similique tempora tempore totam veritatis! Ea, veniam.</p>
       </div>
-      <div>
-        <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last name</label>
-        <input formControlName="lastName" type="text" id="last_name"
-               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-               placeholder="Lastname" required/>
-      </div>
-      <div>
-        <label for="age" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Age</label>
-        <input formControlName="age" type="number" id="age"
-               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-               placeholder="Age" required/>
-      </div>
-      <button (click)="update()">
-        Button
-      </button>
+
     </div>
   `,
+
   styles: `
+
+    .hero-text{
+      text-shadow: 4px 4px 2px rgba(0,0,0,0.6);
+
+    }
+
+    .hero-bg{
+    background: url('https://images6.alphacoders.com/426/426414.jpg');
+    z-index: -1;
+    background-attachment: fixed;
+    background-size: cover;
+    position: absolute;
+      background-position-y: 90%;
+
+
+
+  }
+
   `
 })
-export class HomeComponent implements OnInit {
 
-  formBuilder = inject(FormBuilder);
-  stateService = inject(StateService);
+export class HomeComponent {
 
-  formGroup = this.formBuilder.group({
-    firstName: '',
-    lastName: '',
-    age: 0
-  })
-
-  ngOnInit(): void {
-    this.stateService.state.subscribe(state => {
-      this.formGroup.patchValue(state, {emitEvent: false});
-    })
-    this.formGroup.valueChanges.subscribe(value => {
-      this.update();
-    })
-  }
-
-  update() {
-    this.stateService.updateState(this.formGroup.getRawValue() as State)
-
-  }
 }
+
+
