@@ -1,13 +1,22 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {NgForOf} from "@angular/common";
-import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 
+interface SelectOption {
+  value: Priority;
+  display: string;
+}
 interface TodoElement {
   title: string;
   content: string;
   image: string;
+  priority: number;
 }
-
+enum Priority {
+  LOW,
+  MIDDLE,
+  HIGH
+}
 @Component({
   selector: 'app-to-do',
   standalone: true,
@@ -38,6 +47,10 @@ interface TodoElement {
               <input formControlName="image" type="text" id="image"
                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                      placeholder="Paste link of task image here" />
+          <label for="priority" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choose Priority</label>
+          <select id="priority" class="bg-gray-50 dark:bg-gray-700 dark:text-white text-white p-2" formControlName="priority">
+            <option *ngFor="let priorityOption of priorityOptions" [value]="priorityOption.value">{{priorityOption.display}}</option>
+          </select>
             </div>
           <button [disabled]="fg.invalid" (click)="submitTodo()" type="button"
                   class=" disabled:bg-gray-500 hover:disabled:bg-gray-500 self-center text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
@@ -46,7 +59,8 @@ interface TodoElement {
         </div>
 
         <div class="tasks w-full mt-5 p-2 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-10">
-          <div *ngFor="let todo of todos; let i = index" class="w-full rounded overflow-hidden shadow-lg bg-slate-900">
+          <div *ngFor="let todo of todos; let i = index" class="w-full relative rounded min-h-[250px] overflow-hidden shadow-2xl  bg-slate-900">
+            <div class="absolute top-2 right-2 w-4 h-4  rounded-3xl {{getColorByPriority(todo)}}"></div>
             <img class="my-2" src="{{todo.image}}" alt="task image">
             <div class="flex justify-between p-3">
               <h3 class="mb-5 text-2xl break-all">{{ todo.title }}</h3>
@@ -66,31 +80,48 @@ interface TodoElement {
           </div>
         </div>
       </div>
-
   `,
   styles: ``
 })
 export class ToDoComponent implements OnInit {
+
   todos: TodoElement[] = [];
   fb = inject(FormBuilder);
   fg = this.fb.group({
     title: ['', Validators.required],
     content: ['', Validators.required],
-    image: ['']
+    image: [''],
+    // @ts-ignore
+    priority: [Priority.LOW, Validators.required]
   });
 
+  priorityOptions: SelectOption[] = [
+    {value: Priority.LOW, display: 'Low'},
+    {value: Priority.MIDDLE, display: 'Middle'},
+    {value: Priority.HIGH, display: 'High'},
+
+  ]
   submitTodo() {
     if (this.fg.invalid)
       return;
 
-    const value = this.fg.getRawValue();
+    let value = this.fg.getRawValue();
+    value.priority = parseInt(value.priority+'');
+
     this.todos.push(value as TodoElement);
-    this.fg.patchValue({title: '', content: '', image: ''});
+
+    this.fg.patchValue({title: '', content: '', image: '',priority: Priority.LOW });
+
+    this.todos = this.todos.sort((a,b) => {
+      return b.priority - a.priority;
+    })
+
     this.updateTodosInLocalStorage();
   }
 
   ngOnInit() {
     this.todos = JSON.parse(localStorage.getItem('todos') ?? '[]');
+    console.log(this.fg.getRawValue());
   }
 
   updateTodosInLocalStorage() {
@@ -102,5 +133,18 @@ export class ToDoComponent implements OnInit {
       return entryIndex !== index
     })
     this.updateTodosInLocalStorage();
+  }
+
+  getColorByPriority(todo: TodoElement) {
+      switch (todo.priority){
+        case Priority.LOW:
+          return 'bg-emerald-800';
+        case Priority.MIDDLE:
+          return 'bg-amber-300';
+        case Priority.HIGH:
+          return 'bg-red-600';
+        default:
+          return 'bg-transparent';
+      }
   }
 }
