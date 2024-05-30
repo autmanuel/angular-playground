@@ -9,11 +9,11 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
     RouterLinkActive
   ],
   template: `
-      <div class="mb-10 hero-img flex font-bold text-3xl w-full h-[50vh] border-b border-black shadow-2xl drop-shadow-2xl justify-center content-center items-center">
+      <div class="mb-10 hero-img flex font-bold w-full h-[50vh] border-b border-black shadow-2xl drop-shadow-2xl justify-center content-center items-center">
 
     <div class="hero-bg w-full h-full opacity-40">
     </div>
-        <h1 class="hero-text drop-shadow-2xl">ANGULAR TRAINING STATION</h1>
+        <h1 class="hero-text drop-shadow-2xl  md:text-3xl text-xl">ANGULAR TRAINING STATION</h1>
     </div>
 
       <!--Content with full VH for scroll function on hero image-->

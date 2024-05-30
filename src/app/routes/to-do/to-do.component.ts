@@ -32,50 +32,58 @@ enum Priority {
   ],
   providers: [],
   template: `
+    <h1 class="mx-2 my-5 text-2xl font-bold">
+      Todo List
+    </h1>
     <div class="max-w-4xl mx-auto">
-      <h1 class="m-5 text-2xl font-bold">
-        Todo List
-      </h1>
-      <div class="flex flex-col md:px-0 px-5  w-full" [formGroup]="fg">
-        <div class="md:w-2/3 sm:w-3/4 w-full self-center flex flex-col gap-2">
+
+      <div class="flex flex-col md:px-0 px-5  w-full gap-2" [formGroup]="fg">
+        <div class="w-full self-center flex flex-col">
 
           <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white ">Task title</label>
           <input formControlName="title" type="text" id="title"
                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                  placeholder="Add task title" required/>
         </div>
+        <div>
         <label for="content" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your message</label>
         <textarea formControlName="content" id="content" rows="4"
                   class=" block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Add task description"></textarea>
-
+        </div>
+        <div>
         <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Task image</label>
         <input formControlName="image" type="text" id="image"
                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                placeholder="Paste link of task image here"/>
-        <label for="priority" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choose
+        </div>
+        <div class="w-full">
+          <label for="priority" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choose
           Priority</label>
-        <select id="priority" class="bg-gray-50 dark:bg-gray-700 dark:text-white text-white p-2"
+        <select id="priority" class="bg-gray-50 w-full dark:bg-gray-700 dark:text-white text-white p-2"
                 formControlName="priority">
           <option *ngFor="let priorityOption of priorityOptions"
                   [value]="priorityOption.value">{{ priorityOption.display }}
           </option>
         </select>
-        <!--            date form -->
+        </div>
+        <div>
         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choose a date</label>
         <input type="date"
                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                formControlName="date"
         />
+        </div>
 
+        <button [disabled]="fg.invalid" (click)="submitTodo()" type="button"
+                class=" disabled:bg-gray-500 hover:disabled:bg-gray-500 self-end mt-2 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
+          Add Todo
+        </button>
       </div>
-      <button [disabled]="fg.invalid" (click)="submitTodo()" type="button"
-              class=" disabled:bg-gray-500 hover:disabled:bg-gray-500 self-center text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
-        Add Todo
-      </button>
     </div>
+    <div class="max-w-4xl mx-auto">
     <div
-      class="tasks w-full mt-5 p-2 grid xl:grid-cols-4 lg:grid-cols-3git  md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-10">
+      class="tasks px-5  w-full mt-5 p-2 grid xl:grid-cols-2 lg:grid-cols-2  md:grid-cols-2 sm:grid-cols-2 grid-cols-1 gap-10">
       <div *ngFor="let todo of todos; let i = index"
            class="w-full flex flex-col justify-between relative rounded min-h-[250px] overflow-hidden shadow-2xl  bg-slate-900">
         <div class="absolute bottom-2 left-2 w-4 h-4  rounded-3xl {{getColorByPriority(todo)}}"></div>
@@ -106,10 +114,10 @@ enum Priority {
 
     </div>
 
-    <h1 class="text-xl mt-8">Done Todos</h1>
+    <h1 class="text-xl mx-2 mt-8">Done Todos</h1>
 
     <div
-      class="tasks w-full mt-5 p-2 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-10">
+      class="tasks w-full px-5 mt-5 p-2 grid xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 gap-10">
       <div *ngFor="let doneTodo of doneTodos; let i = index"
            class="w-full  opacity-50 relative rounded min-h-[250px] overflow-hidden shadow-2xl  bg-slate-900">
         <div class="absolute bottom-2 left-2 w-4 h-4  rounded-3xl {{getColorByPriority(doneTodo)}}"></div>
@@ -128,6 +136,7 @@ enum Priority {
         <p class="p-2 mb-2">{{ formatDate(doneTodo.date) }}</p>
 
       </div>
+    </div>
     </div>
   `,
   styles: ``
