@@ -11,10 +11,7 @@ export class UppercasePipe implements PipeTransform {
     if(typeof value === 'number')
       return value;
 
-    if(value.toLowerCase().includes('rhona'))
-      return value.toUpperCase();
-
-    return value;
+    return value.toUpperCase();
   }
 
 
