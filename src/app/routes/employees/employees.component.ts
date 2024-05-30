@@ -2,13 +2,15 @@ import {Component, ElementRef, inject, OnInit, viewChild} from '@angular/core';
 import {EmployeesService} from "./employees.service";
 import {demoData, Employee} from "./employees.models";
 import {CurrencyPipe, JsonPipe} from "@angular/common";
+import {UppercasePipe} from "../../ui/uppercase.pipe";
 
 @Component({
   selector: 'app-employees',
   standalone: true,
   imports: [
     JsonPipe,
-    CurrencyPipe
+    CurrencyPipe,
+    UppercasePipe
   ],
   template: `
     <table class="table-auto w-full bg-slate-700 ">
@@ -25,7 +27,7 @@ import {CurrencyPipe, JsonPipe} from "@angular/common";
         @for (employee of employees; track employee; let i = $index) {
           <tr class="border-gray-500 border-2">
             <td class="p-2">{{ employee.id }}</td>
-            <td class="p-2">{{ employee.employee_name }}</td>
+            <td class="p-2">{{ employee.employee_name | uppercase }}</td>
             <td class="p-2">{{ employee.employee_salary | currency:'EUR':true }}</td>
             <td class="p-2">{{ employee.employee_age }}</td>
             <td (click)="deleteEmployee(employee.id)" class="p-2 flex justify-end cursor-pointer hover:scale-110 pr-5">
