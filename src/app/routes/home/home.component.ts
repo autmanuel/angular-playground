@@ -9,7 +9,7 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
     RouterLinkActive
   ],
   template: `
-      <div class="hero-img flex font-bold text-3xl w-full h-[50vh] border-b border-black shadow-2xl drop-shadow-2xl justify-center content-center items-center">
+      <div class="mb-10 hero-img flex font-bold text-3xl w-full h-[50vh] border-b border-black shadow-2xl drop-shadow-2xl justify-center content-center items-center">
 
     <div class="hero-bg w-full h-full opacity-40">
     </div>
@@ -19,7 +19,7 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
       <!--Content with full VH for scroll function on hero image-->
     <div class="content h-screen">
       <div class="home-text px-5">
-    <h1 class="mt-10 mb-5 text-2xl">Welcome to my Angular Training Station!</h1>
+    <h1 class="mb-5 text-xl">Welcome to my Angular Training Station!</h1>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio itaque quas repellendus voluptatem voluptatum. Adipisci animi, autem deleniti, error eum illum incidunt minima, molestias omnis quasi qui sapiente sunt temporibus! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus ad aliquam architecto autem ea earum esse est eveniet exercitationem fuga, illum incidunt ipsam ipsum minus modi nemo nisi odio perferendis quam ratione repudiandae similique tempora tempore totam veritatis! Ea, veniam.</p>
       </div>
 

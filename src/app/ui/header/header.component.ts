@@ -9,7 +9,7 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
     RouterLinkActive
   ],
   template: `
-    <nav class="w-full bg-slate-800 text-white p-2.5 font-bold drop-shadow-md">
+    <nav class="w-full bg-slate-800 text-white p-2.5 font-bold drop-shadow-md h-12">
       <div class="flex gap-5">
         <p class="cursor-pointer hover:scale-125 transition-all" routerLinkActive="underline" routerLink="/home">Home</p>
         <p class="cursor-pointer hover:scale-125 transition-all" routerLinkActive="underline" routerLink="/to-do">ToDo</p>

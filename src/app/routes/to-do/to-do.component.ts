@@ -2,6 +2,18 @@ import {Component, inject, OnInit} from '@angular/core';
 import {NgForOf, NgIf} from "@angular/common";
 import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {HttpClient, HttpClientModule, provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import {MatHint, MatLabel, MatSuffix} from "@angular/material/form-field";
+import {
+  MatDatepicker,
+  MatDatepickerInput,
+  MatDatepickerModule,
+  MatDatepickerToggle
+} from "@angular/material/datepicker";
+import {MatInput} from "@angular/material/input";
+import {MatNativeDateModule} from "@angular/material/core";
+import {MatIcon} from "@angular/material/icon";
+
 
 interface SelectOption {
   value: Priority;
@@ -12,6 +24,7 @@ interface TodoElement {
   content: string;
   image: string;
   priority: Priority;
+  date: string;
 }
 enum Priority {
   LOW,
@@ -25,9 +38,21 @@ enum Priority {
     NgForOf,
     FormsModule,
     ReactiveFormsModule,
-    NgIf
+    NgIf,
+    MatSlideToggleModule,
+    MatLabel,
+    MatHint,
+    MatDatepickerToggle,
+    MatDatepicker,
+    MatDatepickerInput,
+    MatInput,
+    MatSuffix,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatIcon
+
   ],
-  providers: [ ],
+  providers: [MatDatepickerModule],
   template: `
     <div class="max-w-4xl mx-auto">
       <h1 class="m-5 text-2xl font-bold">
@@ -35,8 +60,8 @@ enum Priority {
       </h1>
       <div class="flex flex-col md:px-0 px-5  w-full" [formGroup]="fg">
         <div class="md:w-2/3 sm:w-3/4 w-full self-center flex flex-col gap-2">
-          <div>
-            <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Task title</label>
+
+            <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white ">Task title</label>
             <input formControlName="title" type="text" id="title"
                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                    placeholder="Add task title" required/>
@@ -54,7 +79,19 @@ enum Priority {
           <select id="priority" class="bg-gray-50 dark:bg-gray-700 dark:text-white text-white p-2" formControlName="priority">
             <option *ngFor="let priorityOption of priorityOptions" [value]="priorityOption.value">{{priorityOption.display}}</option>
           </select>
-            </div>
+<!--            date form -->
+          <mat-label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choose a date</mat-label>
+          <input matInput [matDatepicker]="date"
+                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          />
+          <mat-datepicker-toggle matIconSuffix [for]="date">
+            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+
+          </mat-datepicker-toggle>
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker #date></mat-datepicker>
+
+      </div>
           <button [disabled]="fg.invalid" (click)="submitTodo()" type="button"
                   class=" disabled:bg-gray-500 hover:disabled:bg-gray-500 self-center text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
             Add Todo
@@ -105,7 +142,6 @@ enum Priority {
 
           </div>
         </div>
-      </div>
   `,
   styles: ``
 })
@@ -119,7 +155,8 @@ export class ToDoComponent implements OnInit {
     content: ['', Validators.required],
     image: [''],
     // @ts-ignore
-    priority: [Priority.LOW, Validators.required]
+    priority: [Priority.LOW, Validators.required],
+    date: ['', Validators.required]
   });
 
   priorityOptions: SelectOption[] = [
@@ -200,4 +237,5 @@ export class ToDoComponent implements OnInit {
           return 'bg-transparent';
       }
   }
+
 }
