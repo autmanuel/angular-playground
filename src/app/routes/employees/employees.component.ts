@@ -50,7 +50,6 @@ import {UppercasePipe} from "../../ui/uppercase.pipe";
 export class EmployeesComponent implements OnInit {
   employeesService = inject(EmployeesService);
   employees: Employee[] = demoData;
-
   ngOnInit() {
     /*this.employeesService.getEmployees().subscribe(employees => {
       this.employees = employees;
@@ -59,8 +58,6 @@ export class EmployeesComponent implements OnInit {
   }
 
   deleteEmployee(id: number) {
-    // mistkübel click function DIESE FUNKION AUFRUFEN!!
-    // thi.employees.filter < nutze filter
     this.employees = this.employees.filter((employee) => {
       return employee.id !== id
     })
