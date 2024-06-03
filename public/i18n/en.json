@@ -7,7 +7,19 @@
       "title": "Todo List",
       "form": {
         "taskTitle": "Task title",
-        "taskTitlePlaceHolder": "Add task title"
+        "taskTitlePlaceHolder": "Add task title",
+        "todoDescription": "Description",
+        "todoDescriptionPlaceHolder": "Add description",
+        "image": "Task image",
+        "imagePlaceHolder": "Add image",
+        "priority": "Priority",
+        "date": "date",
+        "submitButton": "Add todo"
+      },
+      "priorityOptions": {
+        "low": "Low",
+        "middle": "Middle",
+        "high": "High"
       }
     }
   }

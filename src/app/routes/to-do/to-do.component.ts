@@ -48,29 +48,28 @@ enum Priority {
                  [placeholder]="'routes.todo.form.taskTitlePlaceHolder' | translate" required/>
         </div>
         <div>
-        <label for="content" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your message</label>
+        <label for="content" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{'routes.todo.form.todoDescription' |translate}}</label>
         <textarea formControlName="content" id="content" rows="4"
                   class=" block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="Add task description"></textarea>
+                  [placeholder]="'routes.todo.form.todoDescriptionPlaceHolder' |translate"></textarea>
         </div>
         <div>
-        <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Task image</label>
+        <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{'routes.todo.form.image' |translate}}</label>
         <input formControlName="image" type="text" id="image"
                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-               placeholder="Paste link of task image here"/>
+               [placeholder]="'routes.todo.form.imagePlaceHolder' |translate"/>
         </div>
         <div class="w-full">
-          <label for="priority" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choose
-          Priority</label>
+          <label for="priority" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{'routes.todo.form.priority' |translate}}</label>
         <select id="priority" class="bg-gray-50 w-full dark:bg-gray-700 dark:text-white text-white p-2"
                 formControlName="priority">
           <option *ngFor="let priorityOption of priorityOptions"
-                  [value]="priorityOption.value">{{ priorityOption.display }}
+                  [value]="priorityOption.value">{{ priorityOption.display | translate }}
           </option>
         </select>
         </div>
         <div>
-        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choose a date</label>
+        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{'routes.todo.form.date' |translate}}</label>
         <input type="date"
                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                formControlName="date"
@@ -79,7 +78,7 @@ enum Priority {
 
         <button [disabled]="fg.invalid" (click)="submitTodo()" type="button"
                 class=" disabled:bg-gray-500 hover:disabled:bg-gray-500 self-end mt-2 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
-          Add Todo
+          {{'routes.todo.form.submitButton' |translate}}
         </button>
       </div>
     </div>
@@ -158,9 +157,9 @@ export class ToDoComponent implements OnInit {
   });
 
   priorityOptions: SelectOption[] = [
-    {value: Priority.LOW, display: 'Low'},
-    {value: Priority.MIDDLE, display: 'Middle'},
-    {value: Priority.HIGH, display: 'High'},
+    {value: Priority.LOW, display: 'routes.todo.priorityOptions.low'},
+    {value: Priority.MIDDLE, display: 'routes.todo.priorityOptions.middle'},
+    {value: Priority.HIGH, display: 'routes.todo.priorityOptions.high'},
 
   ]
 
