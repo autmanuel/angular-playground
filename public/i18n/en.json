@@ -1,5 +1,14 @@
 {
   "labels": {
     "date": "Date"
+  },
+  "routes": {
+    "todo": {
+      "title": "Todo List",
+      "form": {
+        "taskTitle": "Task title",
+        "taskTitlePlaceHolder": "Add task title"
+      }
+    }
   }
 }

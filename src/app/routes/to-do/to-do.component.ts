@@ -3,6 +3,7 @@ import {NgForOf, NgIf} from "@angular/common";
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import moment from "moment"
+import {TranslateModule} from "@ngx-translate/core";
 
 interface SelectOption {
   value: Priority;
@@ -28,22 +29,23 @@ enum Priority {
     FormsModule,
     ReactiveFormsModule,
     NgIf,
+    TranslateModule,
 
   ],
   providers: [],
   template: `
     <h1 class="mx-2 my-5 text-2xl font-bold">
-      Todo List
+      {{"routes.todo.title" | translate}}
     </h1>
     <div class="max-w-4xl mx-auto">
 
       <div class="flex flex-col md:px-0 px-5  w-full gap-2" [formGroup]="fg">
         <div class="w-full self-center flex flex-col">
 
-          <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white ">Task title</label>
+          <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white ">{{"routes.todo.form.taskTitle" | translate}}</label>
           <input formControlName="title" type="text" id="title"
                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                 placeholder="Add task title" required/>
+                 [placeholder]="'routes.todo.form.taskTitlePlaceHolder' | translate" required/>
         </div>
         <div>
         <label for="content" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your message</label>
