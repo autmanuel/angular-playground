@@ -141,7 +141,7 @@ enum Priority {
   `,
   styles: ``
 })
-export class ToDoComponent implements OnInit {
+export class ToDoComponent implements i {
 
   todos: TodoElement[] = [];
   doneTodos: TodoElement[] = [];

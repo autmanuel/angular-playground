@@ -13,14 +13,15 @@ import {UppercasePipe} from "../../ui/uppercase.pipe";
     UppercasePipe
   ],
   template: `
+    <h1 class="my-5 text-2xl">This is an employee API</h1>
     <table class="table-auto w-full bg-slate-700 ">
       <thead>
       <tr class="border-gray-500 border-2">
-        <th class="p-2">ID</th>
-        <th class="p-2">Name</th>
-        <th class="p-2">Salary</th>
-        <th class="p-2">Age</th>
-        <th class="p-2 pr-5">Action</th>
+        <th class="p-2 text-start">ID</th>
+        <th class="p-2 text-start">Name</th>
+        <th class="p-2 text-start">Salary</th>
+        <th class="p-2 text-start">Age</th>
+        <th class="p-2 pr-5 text-end">Action</th>
       </tr>
       </thead>
       <tbody>
@@ -41,9 +42,6 @@ import {UppercasePipe} from "../../ui/uppercase.pipe";
         }
       </tbody>
     </table>
-    @for (employee of employees; track employee; let i = $index) {
-      <div>{{ employee | json }}</div>
-    }
   `,
   styles: ``
 })
