@@ -18,7 +18,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     {
       provide: LOCALE_ID,
-      useValue: 'de-DE' // 'de-DE' for Germany, 'fr-FR' for France ...
+      useValue: (localStorage.getItem('language') ?? 'en') === 'en' ? 'en-US': 'de-DE' // 'de-DE' for Germany, 'fr-FR' for France ...
     },
     provideHttpClient(withInterceptorsFromDi()),
     importProvidersFrom(TranslateModule.forRoot({

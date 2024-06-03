@@ -1,5 +1,5 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {NgForOf, NgIf} from "@angular/common";
+import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import moment from "moment"
@@ -30,6 +30,7 @@ enum Priority {
     ReactiveFormsModule,
     NgIf,
     TranslateModule,
+    DatePipe,
 
   ],
   providers: [],
@@ -100,7 +101,7 @@ enum Priority {
           </div>
         </div>
         <p class="p-2">{{ todo.content }}</p>
-        <p class="p-2 mb-2">{{ formatDate(todo.date) }}</p>
+        <p class="p-2 mb-2">{{ todo.date | date }}</p>
 
         <div class="text-green-800 w-full pt-5 flex justify-end justify-self-end p-2 cursor-pointer"
              (click)="moveItemAtIndexToDone(i)">
@@ -115,7 +116,7 @@ enum Priority {
 
     </div>
 
-    <h1 class="text-xl mx-2 mt-8">Done Todos</h1>
+    <h1 class="text-xl mx-2 mt-8">{{'routes.todo.doneTodos' |translate}}</h1>
 
     <div
       class="tasks w-full px-5 mt-5 p-2 grid xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 gap-10">
@@ -134,7 +135,7 @@ enum Priority {
           </div>
         </div>
         <p class="p-2 mb-2">{{ doneTodo.content }}</p>
-        <p class="p-2 mb-2">{{ formatDate(doneTodo.date) }}</p>
+        <p class="p-2 mb-2">{{ doneTodo.date | date }}</p>
 
       </div>
     </div>

@@ -34,12 +34,13 @@ import {TranslateService} from "@ngx-translate/core";
   styles: ``
 })
 export class HeaderComponent  implements OnInit {
-  currentLanguage = localStorage.getItem('language') ?? 'en';
+  currentLanguage!: string;
   translateService = inject(TranslateService);
   setLanguage(language: 'de' | 'en') {
     localStorage.setItem('language', language);
-    this.currentLanguage = localStorage.getItem('language') ?? 'en';
+    this.currentLanguage = language;
     this.translateService.setDefaultLang(this.currentLanguage);
+    window.location.reload();
   }
 
   ngOnInit() {

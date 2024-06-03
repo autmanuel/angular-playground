@@ -1,5 +1,27 @@
 {
   "labels": {
-    "date": "Datum"
+    "date": "Date"
+  },
+  "routes": {
+    "todo": {
+      "doneTodos": "Erledigte Aufgaben",
+      "title": "Todo Liste",
+      "form": {
+        "taskTitle": "Aufgabentitel",
+        "taskTitlePlaceHolder": "Füge eine Aufgabe hinzu",
+        "todoDescription": "Beschreibung",
+        "todoDescriptionPlaceHolder": "füge eine Beschreibung hinzu",
+        "image": "Aufgabenbild",
+        "imagePlaceHolder": "Füge eine Bild-url hinzu",
+        "priority": "Priorität",
+        "date": "Datum",
+        "submitButton": "Todo hinzufügen"
+      },
+      "priorityOptions": {
+        "low": "Niedrig",
+        "middle": "Mittel",
+        "high": "Hoch"
+      }
+    }
   }
 }
