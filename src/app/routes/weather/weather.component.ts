@@ -4,6 +4,7 @@ import {CustomWeatherModel, WeatherType} from "./weather.model";
 import {DatePipe, JsonPipe} from "@angular/common";
 import {DecimalPipe} from "../../ui/pipes/decimal.pipe";
 import {CelsiusPipe} from "../../ui/pipes/celsius.pipe";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-weather',
@@ -12,7 +13,8 @@ import {CelsiusPipe} from "../../ui/pipes/celsius.pipe";
     JsonPipe,
     DatePipe,
     DecimalPipe,
-    CelsiusPipe
+    CelsiusPipe,
+    TranslateModule
   ],
   template: `
     @if(weatherResponse) {
@@ -23,7 +25,7 @@ import {CelsiusPipe} from "../../ui/pipes/celsius.pipe";
 
         </div>
           <ul class="text-base text-white">
-          <li>Date: {{weatherResponse.date | date}}</li>
+          <li>{{"labels.date" | translate}}: {{weatherResponse.date | date}}</li>
           <li>min.Temperature: {{weatherResponse.minTemp | decimal | celsius}}</li>
           <li>max.Temperature: {{weatherResponse.maxTemp | decimal | celsius}}</li>
           </ul>

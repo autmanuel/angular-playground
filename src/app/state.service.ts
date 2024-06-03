@@ -5,6 +5,7 @@ export interface State {
   firstName: string;
   lastName: string;
   age: number;
+
 }
 
 @Injectable({
