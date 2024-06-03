@@ -18,10 +18,12 @@ import {TranslateModule} from "@ngx-translate/core";
   ],
   template: `
     @if(weatherResponse) {
-      <div class="m-10 max-w-sm rounded overflow-hidden shadow-lg bg-slate-800">
+      <div class="flex w-full h-full justify-center">
+      <div class="p-2 mt-10 rounded overflow-hidden shadow-lg bg-slate-800">
       <div class="px-6 py-4">
         <div class="font-bold text-xl mb-2 w-full flex justify-between items-center">Weather in Vienna
           <img [src]="getImgUrlByWeatherType()">
+          </div>
 
         </div>
           <ul class="text-base text-white">
