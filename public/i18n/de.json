@@ -1,6 +1,6 @@
 {
   "labels": {
-    "date": "Date"
+    "date": "Datum"
   },
   "routes": {
     "todo": {
@@ -12,7 +12,7 @@
         "todoDescription": "Beschreibung",
         "todoDescriptionPlaceHolder": "füge eine Beschreibung hinzu",
         "image": "Aufgabenbild",
-        "imagePlaceHolder": "Füge eine Bild-url hinzu",
+        "imagePlaceHolder": "Füge eine Bild-Url hinzu",
         "priority": "Priorität",
         "date": "Datum",
         "submitButton": "Todo hinzufügen"
@@ -22,6 +22,11 @@
         "middle": "Mittel",
         "high": "Hoch"
       }
+    },
+    "weatherApi": {
+      "weatherLocation": "Wetter in Wien",
+      "minTemp": "min. Temperatur",
+      "maxTemp": "max. Temperatur"
     }
   }
 }

@@ -5,6 +5,7 @@ import {DatePipe, JsonPipe} from "@angular/common";
 import {DecimalPipe} from "../../ui/pipes/decimal.pipe";
 import {CelsiusPipe} from "../../ui/pipes/celsius.pipe";
 import {TranslateModule} from "@ngx-translate/core";
+import {routes} from "../../app.routes";
 
 @Component({
   selector: 'app-weather',
@@ -19,17 +20,17 @@ import {TranslateModule} from "@ngx-translate/core";
   template: `
     @if(weatherResponse) {
       <div class="flex w-full h-full justify-center">
-      <div class="p-2 mt-10 rounded overflow-hidden shadow-lg bg-slate-800">
+      <div class="p-2 mt-10 rounded overflow-hidden shadow-lg bg-slate-800 w-1/2">
       <div class="px-6 py-4">
-        <div class="font-bold text-xl mb-2 w-full flex justify-between items-center">Weather in Vienna
-          <img [src]="getImgUrlByWeatherType()">
+        <div class="font-bold text-3xl mb-2 w-full flex justify-between items-center">{{'routes.weatherApi.weatherLocation' |translate}}
+          <img [src]="getImgUrlByWeatherType()" class="w-[100px]">
           </div>
 
         </div>
-          <ul class="text-base text-white">
+          <ul class="text-base text-white text-xl p-5">
           <li>{{"labels.date" | translate}}: {{weatherResponse.date | date}}</li>
-          <li>min.Temperature: {{weatherResponse.minTemp | decimal | celsius}}</li>
-          <li>max.Temperature: {{weatherResponse.maxTemp | decimal | celsius}}</li>
+          <li>{{"routes.weatherApi.minTemp" |translate}}: {{weatherResponse.minTemp | decimal | celsius}}</li>
+          <li>{{"routes.weatherApi.maxTemp" |translate}}: {{weatherResponse.maxTemp | decimal | celsius}}</li>
           </ul>
       </div>
       </div>
@@ -57,4 +58,5 @@ export class WeatherComponent implements OnInit {
     }
   }
 
+  protected readonly routes = routes;
 }

@@ -4,7 +4,7 @@
   },
   "routes": {
     "todo": {
-      "doneTodos": "Done Todos",
+      "doneTodos": "Donegit  Todos",
       "title": "Todo List",
       "form": {
         "taskTitle": "Task title",
@@ -22,6 +22,11 @@
         "middle": "Middle",
         "high": "High"
       }
+    },
+    "weatherApi": {
+      "weatherLocation": "Weather in Vienna",
+      "minTemp": "min.Temperature",
+      "maxTemp": "max.Temperature"
     }
   }
 }
