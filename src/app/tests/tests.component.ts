@@ -1,13 +1,17 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {FormBuilder, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {State, StateService} from "../state.service";
+import {CardComponent} from "../ui/card/card.component";
+import {HighlightDirective} from "../ui/directives/highlight.directive";
 
 @Component({
   selector: 'app-tests',
   standalone: true,
   imports: [
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CardComponent,
+    HighlightDirective
   ],
   template: `
     <div class="grid grid-cols-3 gap-5" [formGroup]="formGroup">
@@ -33,6 +37,19 @@ import {State, StateService} from "../state.service";
         Button
       </button>
     </div>
+<!--    directive-->
+    <h1 appHighlight>Test</h1>
+<!--ng content projection-->
+        <app-card [shouldBeBlack]="true">
+          <h1 title class="bg-slate-800 text-green-800">test</h1>
+          <h1 description>wwefewfweewfwf</h1>
+
+        </app-card>
+        <app-card [shouldBeBlack]="false">
+          <h1 title class="bg-slate-800 text-green-800">test</h1>
+          <h1 description>wwefewfweewfwf</h1>
+
+        </app-card>
   `,
   styles: ``
 })

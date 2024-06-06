@@ -4,24 +4,16 @@ import {AsyncPipe, NgIf} from "@angular/common";
 import {StateService} from "./state.service";
 import {HeaderComponent} from "./ui/header/header.component";
 import {CardComponent} from "./ui/card/card.component";
+import {HighlightDirective} from "./ui/directives/highlight.directive";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NgIf, AsyncPipe, HeaderComponent, CardComponent],
+  imports: [RouterOutlet, NgIf, AsyncPipe, HeaderComponent, CardComponent, HighlightDirective],
   template: `
     <app-header></app-header>
     <router-outlet />
-<!--    <app-card [shouldBeBlack]="true">-->
-<!--      <h1 title class="bg-slate-800 text-green-800">test</h1>-->
-<!--      <h1 description>wwefewfweewfwf</h1>-->
 
-<!--    </app-card>-->
-<!--    <app-card [shouldBeBlack]="false">-->
-<!--      <h1 title class="bg-slate-800 text-green-800">test</h1>-->
-<!--      <h1 description>wwefewfweewfwf</h1>-->
-<!--    -->
-<!--    </app-card>-->
   `,
   styles: [``],
 })
