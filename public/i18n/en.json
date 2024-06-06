@@ -4,7 +4,7 @@
   },
   "routes": {
     "todo": {
-      "doneTodos": "Donegit  Todos",
+      "doneTodos": "Done  Todos",
       "title": "Todo List",
       "form": {
         "taskTitle": "Task title",
